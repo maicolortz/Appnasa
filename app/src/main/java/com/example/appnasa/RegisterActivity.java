@@ -66,10 +66,21 @@ public class RegisterActivity extends AppCompatActivity {
                 String firstName = firstNameEditText.getText().toString();
                 String lastName = lastNameEditText.getText().toString();
                 String identification = identificationEditText.getText().toString();
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(identification) || TextUtils.isEmpty(firstName)) {
+
                     Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
 
-                } else {
+                } else if (!email.matches(emailPattern)) {
+                    // Muestra un mensaje si el email no es valido
+                    Toast.makeText(RegisterActivity.this, "The email is not valid", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if(identification.length()<6){
+                    Toast.makeText(RegisterActivity.this, "The identification have six characters as minime", Toast.LENGTH_SHORT).show();
+                }else if(password.length()<4){
+                    Toast.makeText(RegisterActivity.this, "The password have four characters as minime", Toast.LENGTH_SHORT).show();
+                }else {
                     User user = new User(1212, email, password, firstName, lastName, identification);
                     UserQueries userQueries = new UserQueries(RegisterActivity.this);
                     userQueries.addUser(user);
